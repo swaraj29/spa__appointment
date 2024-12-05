@@ -4,14 +4,25 @@ const path = require('path');
 // Path to the appointments file
 const appointmentsFilePath = path.join(__dirname, '../data/appointments.txt');
 
-// Load appointments from the file
 const loadAppointmentsFromFile = () => {
   try {
     const data = fs.readFileSync(appointmentsFilePath, 'utf8');
-    return JSON.parse(data || '[]');
+    
+    // Check if the data looks like HTML before attempting to parse it
+    if (data.includes('<html>')) {
+      throw new Error('Received HTML instead of JSON');
+    }
+    
+    // Attempt to parse JSON data
+    try {
+      return JSON.parse(data || '[]');
+    } catch (jsonError) {
+      console.error('Error parsing JSON data:', jsonError);
+      return [];  // Return an empty array if parsing fails
+    }
   } catch (error) {
     console.error('Error loading appointments:', error);
-    return [];
+    return [];  // Return an empty array if reading the file fails
   }
 };
 

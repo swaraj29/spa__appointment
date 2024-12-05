@@ -1,0 +1,10 @@
+[
+  {
+    "name": "Swaraj Kumar",
+    "phone": "7992470659",
+    "service": "facial",
+    "date": "2025-01-01",
+    "time": "08:47",
+    "notes": "as"
+  }
+]

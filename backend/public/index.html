@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Spa Appointment Booking</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Spa Appointment Booking System</h1>
+
+    <!-- Booking Form -->
+    <form id="booking-form">
+      <h2>Book an Appointment</h2>
+      <div class="form-group">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" required>
+      </div>
+      <div class="form-group">
+        <label for="phone">Phone Number:</label>
+        <input type="tel" id="phone" name="phone" required>
+      </div>
+      <div class="form-group">
+        <label for="service">Service:</label>
+        <select id="service" name="service" required>
+          <option value="massage">Massage</option>
+          <option value="facial">Facial</option>
+          <option value="mani-pedi">Manicure & Pedicure</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="time">Time:</label>
+        <input type="time" id="time" name="time" required>
+      </div>
+      <div class="form-group">
+        <label for="date">Appointment Date:</label>
+        <input type="date" id="date" name="date" required>
+      </div>
+      <div class="form-group">
+        <label for="notes">Notes:</label>
+        <textarea id="notes" name="notes"></textarea>
+      </div>
+      <button type="submit">Book Appointment</button>
+    </form>
+
+    <hr>
+
+    <!-- Modify Appointment Form -->
+    <form id="modify-form">
+      <h2>Modify Appointment</h2>
+      <div class="form-group">
+        <label for="modify-phone">Phone Number:</label>
+        <input type="tel" id="modify-phone" name="phone" required>
+      </div>
+      <div class="form-group">
+        <label for="modify-date">New Appointment Date:</label>
+        <input type="date" id="modify-date" name="date" required>
+      </div>
+      <button type="submit">Modify Appointment</button>
+    </form>
+
+    <hr>
+
+    <!-- Cancel Appointment Form -->
+    <form id="cancel-form">
+      <h2>Cancel Appointment</h2>
+      <div class="form-group">
+        <label for="cancel-phone">Phone Number:</label>
+        <input type="tel" id="cancel-phone" name="phone" required>
+      </div>
+      <button type="submit">Cancel Appointment</button>
+    </form>
+  </div>
+
+  <script>
+    // Handle form submissions for booking, modifying, and canceling appointments
+    document.getElementById('booking-form').addEventListener('submit', function (e) {
+      e.preventDefault();
+      const formData = new FormData(this);
+      fetch('/api/appointments/submit-booking', {
+        method: 'POST',
+        body: new URLSearchParams(formData)
+      })
+      .then(response => response.json())
+      .then(data => alert(data.message))
+      .catch(error => alert('Error: ' + error.message));
+    });
+
+    document.getElementById('modify-form').addEventListener('submit', function (e) {
+      e.preventDefault();
+      const phone = document.getElementById('modify-phone').value;
+      const date = document.getElementById('modify-date').value;
+      fetch('/api/appointments/modify-appointment', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ phone, date })
+      })
+      .then(response => response.json())
+      .then(data => alert(data.message))
+      .catch(error => alert('Error: ' + error.message));
+    });
+
+    document.getElementById('cancel-form').addEventListener('submit', function (e) {
+      e.preventDefault();
+      const phone = document.getElementById('cancel-phone').value;
+      fetch('/api/appointments/cancel-appointment', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ phone })
+      })
+      .then(response => response.json())
+      .then(data => alert(data.message))
+      .catch(error => alert('Error: ' + error.message));
+    });
+  </script>
+</body>
+</html>

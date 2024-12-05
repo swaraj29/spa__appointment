@@ -76,16 +76,23 @@
   <script>
     // Handle form submissions for booking, modifying, and canceling appointments
     document.getElementById('booking-form').addEventListener('submit', function (e) {
-      e.preventDefault();
-      const formData = new FormData(this);
-      fetch('/api/appointments/submit-booking', {
-        method: 'POST',
-        body: new URLSearchParams(formData)
-      })
-      .then(response => response.json())
-      .then(data => alert(data.message))
-      .catch(error => alert('Error: ' + error.message));
-    });
+  e.preventDefault();
+  const formData = new FormData(this);
+  const bookingData = {};
+  formData.forEach((value, key) => {
+    bookingData[key] = value;
+  });
+
+  fetch('/api/appointments/submit-booking', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(bookingData)
+  })
+  .then(response => response.json())
+  .then(data => alert(data.message))
+  .catch(error => alert('Error: ' + error.message));
+});
+
 
     document.getElementById('modify-form').addEventListener('submit', function (e) {
       e.preventDefault();

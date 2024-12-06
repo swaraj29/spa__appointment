@@ -38,8 +38,8 @@ The **Spa Appointment Booking System** provides a simple way for customers to bo
 
 1. Clone the repository:
     ```sh
-    git clone https://github.com/yourusername/spa-appointment.git
-    cd spa-appointment
+    git clone https://github.com/swaraj29/spa__appointment.git
+    cd spa__appointment
     ```
 
 ### Install Dependencies
